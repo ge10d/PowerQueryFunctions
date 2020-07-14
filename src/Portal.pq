@@ -15,11 +15,9 @@ let
                     Type = RecordType,
                     Content = RecordContent
                 ]
-        )
+        ),
 
 
-
-    ContentStart = {},
     AddLoadFileFromURL = 
         (
 
@@ -27,12 +25,17 @@ let
                 Types = 
                     [
                         
+                        FileRelativePath.Type = type text meta [
+                            Documentation.FieldCaption = "File Relative Path",
+                            Documentation.FieldDescription = "File Relative Path"
+                        ],
+                        
 
                         LoadFileFromURL.Type = 
                             (
                                 type function(
                                 
-                                    
+                                    FileRelativePath as FileRelativePath.Type
                                 
                                 )
                                 as any meta [
@@ -44,12 +47,24 @@ let
 
                 Errors = 
                     [
-
+                        FileURL = Error.Record(
+                            "Issue with File URL",
+                            "Issue with File URL",
+                            "Issue with File URL"
+                            ),
+                        Expression = Error.Record(
+                            "Issue with Expression",
+                            "Issue with Expression",
+                            "Issue with Expression"
+                        )
                     ],
 
                 BaseFunction = 
                     (
-
+                        (
+                            FileRelativePath as text
+                        ) as any =>
+                            FileRelativePath
                     ),
 
                 SetType = Value.ReplaceType(BaseFunction, Types[LoadFileFromURL.Type]),
@@ -61,7 +76,7 @@ let
                 )
 
             in
-                List.Combine({ContentStart, {GetRecord}})
+                {GetRecord}
 
         ),
 
